@@ -20,20 +20,26 @@ public class TimeServlet extends HttpServlet {
             throws ServletException, IOException {
         resp.setContentType("text/html; charset=utf-8");
         resp.setCharacterEncoding("utf-8");
-        ZonedDateTime now = ZonedDateTime.now(ZoneId.of("UTC"));
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss 'UTC'");
+        String timezone = req.getParameter("timezone");
+
+        ZoneId zoneId;
+        if (timezone == null || timezone.isEmpty()) {
+           zoneId = ZoneId.of("UTC");
+        }else{
+            zoneId = ZoneId.of(timezone.replace(" ", "+"));
+        }
+
+        ZonedDateTime now = ZonedDateTime.now(zoneId);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String formattedTime = now.format(formatter);
-
-
-
 
         PrintWriter out = resp.getWriter();
 
         out.println("<!DOCTYPE html>");
         out.println("<html><body>");
         out.println("<h1> Welcome to TimeServlet </h1>");
-        out.println("<p> Current time is: " + formattedTime + "</p>");
+        out.println("<p> Current time is: " + formattedTime + " " + zoneId + "</p>");
         out.println("</body></html>");
 
 
