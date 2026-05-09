@@ -26,7 +26,7 @@ public class TimeServlet extends HttpServlet {
         ZoneId zoneId;
         if (timezone == null || timezone.isEmpty()) {
            zoneId = ZoneId.of("UTC");
-        }else{
+        } else{
             zoneId = ZoneId.of(timezone.replace(" ", "+"));
         }
 
@@ -41,9 +41,5 @@ public class TimeServlet extends HttpServlet {
         out.println("<h1> Welcome to TimeServlet </h1>");
         out.println("<p> Current time is: " + formattedTime + " " + zoneId + "</p>");
         out.println("</body></html>");
-
-
     }
-
-
 }

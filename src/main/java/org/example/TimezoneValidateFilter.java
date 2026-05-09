@@ -15,20 +15,19 @@ import java.time.ZoneId;
 public class TimezoneValidateFilter extends HttpFilter {
     @Override
     public void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
-            throws IOException, ServletException
-    {
+            throws IOException, ServletException {
         String timezone = request.getParameter("timezone");
         ZoneId zoneId;
 
-        try{
-            if(timezone == null || timezone.isEmpty()){
+        try {
+            if (timezone == null || timezone.isEmpty()){
                 zoneId = ZoneId.of("UTC");
-            }else{
+            } else{
                 zoneId = ZoneId.of(timezone.replace(" ", "+"));
             }
             chain.doFilter(request,response);
 
-        }catch(Exception e){
+        } catch(Exception e){
             response.sendError(400, "Invalid timezone");
         }
     }
