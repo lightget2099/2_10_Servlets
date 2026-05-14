@@ -8,7 +8,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.time.ZoneId;
 
 @WebFilter(value = "/time")
@@ -20,12 +19,10 @@ public class TimezoneValidateFilter extends HttpFilter {
         ZoneId zoneId;
 
         try {
-            if (timezone == null || timezone.isEmpty()){
-                zoneId = ZoneId.of("UTC");
-            } else{
+            if (timezone != null && !timezone.isEmpty()) {
                 zoneId = ZoneId.of(timezone.replace(" ", "+"));
             }
-            chain.doFilter(request,response);
+            chain.doFilter(request, response);
 
         } catch(Exception e){
             response.sendError(400, "Invalid timezone");
